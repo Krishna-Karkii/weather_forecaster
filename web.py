@@ -1,5 +1,5 @@
 import streamlit as st
-from backend import get_temperature
+from backend import get_data
 st.header("Weather forecaster web")
 
 place = st.text_input("Place")
@@ -9,6 +9,6 @@ option = st.selectbox("Select a Format: ", ("Temperature", "Sky"))
 
 st.subheader(f"{option} for {days}days at {place}")
 
-figure = get_temperature(days)
+figure = get_data(place, days, option)
 
 st.plotly_chart(figure)
