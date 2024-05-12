@@ -10,32 +10,16 @@ def get_data(place, days, weather_format):
     df = response.json()
     nr_days = 8 * days
     filtered_data = df['list'][:nr_days]
-    dates = [data['dt_txt'].split(" ") for data in filtered_data]
-    filtered_times = [data[1] for data in dates]
 
-    index = 0
-    filtered_dates = []
-    while index < days:
-        num = index * 8
-        if num > 0:
-            num = num - 1
-        filtered_dates.append(dates[num][0])
-        index = index + 1
-
-    for index in range(0, days):
-        if index <= days:
-            num = index * 8
-            if num > 0:
-                num = num - 1
-            filtered_times[num] = filtered_dates[index] + " " + filtered_times[num]
-            index = index + 1
+    dates = [data['dt_txt'] for data in filtered_data]
 
     if weather_format == "Temperature":
-        filtered_data = [data['main']['temp'] for data in filtered_data]
+        filtered_data = [data['main']['temp'] - 273.15 for data in filtered_data]
+
     else:
         filtered_data = [data['weather'][0]['main'] for data in filtered_data]
 
-    return filtered_data, filtered_times
+    return filtered_data, dates
 
 
 if __name__ == "__main__":
