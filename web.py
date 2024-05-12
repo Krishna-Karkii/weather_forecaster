@@ -10,7 +10,16 @@ days = st.slider("Choose days to forecast", min_value=1, max_value=5,
 option = st.selectbox("Select a Format: ", ("Temperature", "Sky"))
 
 if place:
-    st.subheader(f"{option} for {days} days at {place}")
-    data, dates = get_data(place, days, option)
-    figure = px.line(x=dates, y=data, labels={"x": "dates", "y": "Temperature"})
-    st.plotly_chart(figure)
+    if option == "Temperature":
+        st.subheader(f"{option} for {days} days at {place}")
+        data, dates = get_data(place, days, option)
+        figure = px.line(x=dates, y=data, labels={"x": "dates", "y": "Temperature"})
+        st.plotly_chart(figure)
+
+    else:
+        datas, dates = get_data(place, days, option)
+        image_paths = []
+        for data in datas:
+            image_paths.append(f"images/{data.lower()}.png")
+        new_datas = [data + 2*"\n" + dates[index] for index, data in enumerate(datas)]
+        st.image(image_paths, width=115, caption=new_datas)
