@@ -5,6 +5,7 @@ API_KEY = "4a41268fee3b599359e894e530b86d4e"
 
 
 def get_data(place, days, weather_format):
+
     url = f"http://api.openweathermap.org/data/2.5/forecast?q={place}&appid={API_KEY}"
     response = requests.get(url)
     df = response.json()
